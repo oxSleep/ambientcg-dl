@@ -4,6 +4,10 @@
 
 # AmbientCG Downloader
 
+
+![Alt Text](./asset/pic01.png)
+![Alt Text](./asset/pic02.png)
+
 AmbientCG Downloader is a command-line tool that allows you to easily download assets from AmbientCG.com. It provides a simple interface for selecting the type and quality of assets you want to download.
 
 ## Features
