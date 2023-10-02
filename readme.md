@@ -1,8 +1,6 @@
-# AmbientCG Downloader (ambientcg-dl)
-
-![GitHub](https://img.shields.io/github/license/oxSleep/ambientcg-dl)
 
 # AmbientCG Downloader
+![GitHub](https://img.shields.io/github/license/oxSleep/ambientcg-dl)
 
 
 ![Alt Text](./asset/pic01.png)
