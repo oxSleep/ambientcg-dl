@@ -144,11 +144,12 @@ fn create_folder_if_not_exists(category: &String, datatype: &String) -> Result<(
 pub fn unzip_file(asset: &FoundAsset) -> Result<(), anyhow::Error> {
 
     let file_path = format!("./ambientCG/{}/{}/{}", asset.datatype, asset.category, asset.file);
+    
+    let metadata = fs::metadata(&file_path).unwrap();
 
-    if asset.file.ends_with(".zip") {
+    if asset.file.ends_with(".zip") && metadata.len() > 0 {
         let file = fs::File::open(&file_path)
             .with_context(|| format!("Failed to open file: {}", &file_path))?;
-
 
         let mut archive = zip::ZipArchive::new(&file)
             .with_context(|| format!("Failed to create ZipArchive for file: {}", &file_path))?;
@@ -158,7 +159,9 @@ pub fn unzip_file(asset: &FoundAsset) -> Result<(), anyhow::Error> {
 
         let _ = fs::remove_file(&file_path)
             .with_context(|| format!("Failed to remove file: {}", &file_path))?;
+
     }
     Ok(())
 }
+
 
