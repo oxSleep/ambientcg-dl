@@ -22,7 +22,14 @@ async fn main() -> Result<(), anyhow::Error> {
         let asset = get_link(&client, init_offset, &settings).await?;
         pb.set_message(format!("Downloading asset: {}", &asset.assetid));
         download_file(&client, &asset).await?;
-        unzip_file(&asset)?;
+
+
+        //TODO, Need testing/
+        if let Err(err) = unzip_file(&asset) {
+            eprintln!("{}", err);
+            continue;
+        }
+
         pb.inc(1);
         init_offset += 1;
     }
