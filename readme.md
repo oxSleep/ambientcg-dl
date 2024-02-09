@@ -17,9 +17,7 @@ AmbientCG Downloader is a command-line tool that allows you to easily download a
 - Automatically extract downloaded zip files for easy access to asset files.
 
 ## Installation
-
-You can download the latest release of `ambientcg-dl` for Windows from the [Releases](https://github.com/oxSleep/ambientcg-dl/releases) page.
-Linux version coming soon.
+Download the repo and build with cargo
 
 ## Contributing
 
