@@ -13,22 +13,28 @@ async fn main() -> Result<(), anyhow::Error> {
 
     let pb = ProgressBar::new(nb.into());
     pb.set_style(ProgressStyle::with_template("{spinner:.green} [{msg}] [{elapsed_precise}] [{wide_bar:.cyan/blue}] {pos}/{len}")
-                 .unwrap()
-                 .progress_chars("#>-"));
+        .unwrap()
+        .progress_chars("#>-"));
 
 
     let mut init_offset = 0;
     for _ in 0..nb {
         let asset = get_link(&client, init_offset, &settings).await?;
         pb.set_message(format!("Downloading asset: {}", &asset.assetid));
-        download_file(&client, &asset).await?;
-        let _ = unzip_file(&asset);
+
+
+        if  check_download_link(&client, &asset.file).await? {
+            download_file(&client, &asset).await?;
+            unzip_file(&asset);
+        } else {
+            println!("Download Unavailable, skipping...");
+        }
         pb.inc(1);
         init_offset += 1;
+
     }
 
 
     pb.finish_with_message("Process completed successfully");
     Ok(())
 }
-
