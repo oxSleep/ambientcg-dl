@@ -9,7 +9,7 @@ async fn main() -> Result<(), anyhow::Error> {
 
     let client = reqwest::Client::builder().user_agent(USER_AGENT).build()?;
     let settings = prompt_user();
-    let nb = get_number_of_asset(&client, &settings.assettype).await?;
+    let nb = get_number_of_asset(&client, &settings.assettype, &settings.query).await?;
 
     let pb = ProgressBar::new(nb.into());
     pb.set_style(ProgressStyle::with_template("{spinner:.green} [{msg}] [{elapsed_precise}] [{wide_bar:.cyan/blue}] {pos}/{len}")
@@ -22,14 +22,7 @@ async fn main() -> Result<(), anyhow::Error> {
         let asset = get_link(&client, init_offset, &settings).await?;
         pb.set_message(format!("Downloading asset: {}", &asset.assetid));
         download_file(&client, &asset).await?;
-
-
-        //TODO, Need testing/
-        if let Err(err) = unzip_file(&asset) {
-            eprintln!("{}", err);
-            continue;
-        }
-
+        let _ = unzip_file(&asset);
         pb.inc(1);
         init_offset += 1;
     }
