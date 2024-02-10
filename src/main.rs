@@ -25,7 +25,7 @@ async fn main() -> Result<(), anyhow::Error> {
 
         if  check_download_link(&client, &asset.file).await? {
             download_file(&client, &asset).await?;
-            unzip_file(&asset);
+            let _ = unzip_file(&asset);
         } else {
             println!("Download Unavailable, skipping...");
         }
