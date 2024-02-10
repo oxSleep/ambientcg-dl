@@ -1,3 +1,4 @@
+use anyhow::Ok;
 use dialoguer::Select;
 use dialoguer::Input;
 use anyhow::Context;
@@ -120,8 +121,19 @@ fn match_parse(text: &Value, search: String) -> Result<String, anyhow::Error> {
     Ok(result.to_string())
 }
 
-pub async fn download_file(client: &Client, asset: &FoundAsset) -> Result<(), anyhow::Error> {
 
+pub async fn check_download_link(client: &Client, asset: &String) -> Result<bool, anyhow::Error> {
+
+    let dl_url = format!("https://ambientCG.com/get?file={}", asset);
+    let res = client.get(dl_url).send().await?;
+    if res.text().await.unwrap().contains("Download Unavailable") {
+        Ok(false)
+    } else {
+        Ok(true)
+    }
+
+}
+pub async fn download_file(client: &Client, asset: &FoundAsset) -> Result<(), anyhow::Error> {
     let dl_url = format!("https://ambientCG.com/get?file={}", asset.file);
     let outpout_path = format!("./ambientCG/{}/{}/{}", asset.datatype, asset.category, asset.file);
 
